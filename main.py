@@ -2,7 +2,7 @@
 
 
 from datetime import date, datetime, timedelta
-from listMaker import listMaker
+from listMaker import IBMSlistMaker
 from inputHandler import readExcel, strToBool
 from openpyxl import Workbook
 from write2excel import write2excelIBMS
@@ -39,7 +39,7 @@ resultadoIBMS = []
 
 #aca itero las promos para armar la plani IBMS
 for promo in muchasPromos: 
-  listaPromos = listMaker(promo) 
+  listaPromos = IBMSlistMaker(promo) 
   resultadoIBMS.append(listaPromos)
 
 #print (resultadoIBMS)

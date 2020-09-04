@@ -107,6 +107,7 @@ def properTime(date, feed, mexDst, chiDst):
       mexTime.strftime('%I:%M %p Méx'), colTime.strftime('%I:%M %p Col'), chiTime.strftime('%I:%M %p Chi')
       ]
       return ' '.join(dateItems)
+    
     elif feed == 'MCLATAM':
       colTime = date
       if chiDst == True:
@@ -115,18 +116,26 @@ def properTime(date, feed, mexDst, chiDst):
       else:
         chiTime = colTime + timedelta(0, 3600) #sumo 1 h
         argTime = colTime + timedelta(0, 7200) #sumo 2 h
-      
       dateItems = [
       colTime.strftime('%I:%M %p Col'), chiTime.strftime('%I:%M %p Chi'), argTime.strftime('%I:%M %p Arg')]
       return ' '.join(dateItems)
-    elif feed == 'MCUSA':
-      #Hacemos de cuenta que  Mex y USA actualizan relojes al mismo tiempo. Diferencia siempre es 1 hora
-      mexTime = date
-      eastTime = mexTime + timedelta(0, 3600) #sumo 1 h
 
-      dateItems = [
-      mexTime.strftime('%I:%M %p Méx'), eastTime.strftime('%I:%M %p Este')]
-      return ' '.join(dateItems)
+    elif feed == 'MCUSA':
+      #El horario que marca la pauta es el de USA. Cuando Mex atrasa, cambia Mex, no usa.
+      eastTime = date
+      if mexDst == True:
+        mexTime = eastTime - timedelta(0, 3600) #resto 1 h
+        dateItems = [
+        mexTime.strftime('%I:%M %p Méx'), eastTime.strftime('%I:%M %p Este')
+        ]
+        return ' '.join(dateItems)
+      else:
+        mexTime = eastTime - timedelta(0, 7200) #resto 1 h
+        dateItems = [
+        mexTime.strftime('%I:%M %p Méx'), eastTime.strftime('%I:%M %p Este')
+        ]
+        return ' '.join(dateItems)
+    
     elif feed == 'EE':
       argTime = date
       if mexDst == True and chiDst == True: #3 horarios, CHi con Arg
