@@ -746,7 +746,14 @@ def IBMSlistMaker(promo):
 
 #REVISAR LA CONDUCTA CON LOS BUMPS. QUE FEEDS DEJA Y QUE FEEDS NO. OK
 #QUE HACE CUANDO SE INGRESA UN BUMP A UN CANAL ERRONEO. OK con GOURMET NORTE y con MC USA -
-# agregarlo a AMC
-#En AMC no implementamos bumps directamente.
+# agregarlo a AMC. En AMC no implementamos bumps directamente.
+
+#importar unidecode para que le saque los tildes y caracteres raros
+#import unidecode (hay que instalarlo primero)
+# ej.
+# string3 = 'niño NIÑO'
+# unidecode.unidecode(string3)
+
+
 
 #Y luego la version para la plani de Seguimiento. Esa va en una funcion diferente. Uff
