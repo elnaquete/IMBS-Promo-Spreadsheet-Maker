@@ -14,14 +14,13 @@ feeds = ['EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMC
 packs = ['ESTRENO', 'NT', 'REP', 'GEN', 'PUNTUAL', 'CLUB','GEN', 'STUNT', 'MEDIODIA'] #agregar packs = 'CAPS_ESTRENO' (que es igual que NT, no?)
 
 
-filename = 'input.xlsx'
 
 promo1 = {
-'showFeed': 'MCLATAM',
-'showName': 'la vaca lola',
-'promoPckg': 'BUMP',
+'showFeed': 'FALATAM',
+'showName': 'BREAKING MUSIC 01',
+'promoPckg': 'GEN',
 'premiereDate': datetime(2020,10,1,18),
-'genDateStr': 'MARTES Y JUEVES',
+'genDateStr': 'MIÉRCOLES',
 'genStartDate': datetime(2020,10,1,18),
 'endDate': datetime(2020,10,31,18),
 'dstMex': True, 
@@ -33,6 +32,9 @@ promo1 = {
 'foxSports': False
 } 
 
+#Este es el nombre del Excel que leera con las promos.
+filename = 'input.xlsx'
+
 #muchasPromos = [promo1]
 muchasPromos = readExcel(filename)
 resultadoIBMS = []
@@ -42,7 +44,7 @@ for promo in muchasPromos:
   listaPromos = IBMSlistMaker(promo) 
   resultadoIBMS.append(listaPromos)
 
-#print (resultadoIBMS)
+print (resultadoIBMS)
 
 #ACA SIGUE LA IMPLEMENTACION PARA PEGAR TODO EN UN UN EXCEL
-write2excelIBMS(resultadoIBMS, "listaIBMS.xlsx")
+write2excelIBMS(resultadoIBMS, "lista_IBMS.xlsx")
