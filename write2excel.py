@@ -33,8 +33,15 @@ def write2excelIBMS (list2print, dest_filename):
     # Al final de todo, borrar la Hoja 'Sheet' que esta vacía
     wb.remove(wb['Sheet'])
 
+    # Ajustar el ancho de las columnas de todas las hojas // NO FUNCIONA, VER POR QUE
+    columnTidier(wb)
     #Salvo el libro
     wb.save(filename = dest_filename)
+
+
+
+
+
 
 def write2excelSeguimiento (list2print, dest_filename):
     '''
@@ -69,24 +76,30 @@ def write2excelSeguimiento (list2print, dest_filename):
                 ws1.append(promo)  #la agrego como fila a la planilla ws1
     # Al final de todo, borrar la Hoja 'Sheet' que esta vacía
     wb.remove(wb['Sheet'])
-    # Ajustar el ancho de las columnas de todas las hojas // NO FUNCIONA, VER POR QUE
-    for sheet in wb.worksheets:
-        columnTidier(sheet)
 
-    #Salvo el libro
-    wb.save(filename = dest_filename)
 
-def columnTidier (worksheet):  #NO FUNCIONA, VER POR QUÉ
-    from openpyxl.utils import get_column_letter
+def columnTidier (workbook):  #Puesto a mano, luego vemos de automatizarlo.
+    for sheet in workbook:
+        sheet.column_dimensions['A'].width = 50
+        sheet.column_dimensions['E'].width = 40
+        sheet.column_dimensions['F'].width = 17
+        sheet.column_dimensions['I'].width = 10
+        sheet.column_dimensions['J'].width = 10
+        sheet.column_dimensions['K'].width = 10
 
-    column_widths = []
-    for row in worksheet:
-        for i, cell in enumerate(row):
-            if len(column_widths) > i:
-                if len(cell) > column_widths[i]:
-                    column_widths[i] = len(cell)
-            else:
-                column_widths += [len(cell)]
+    #Esta es la version que no pude hacer andar
+    # from openpyxl.utils import get_column_letter
+  
 
-    for i, column_width in enumerate(column_widths):
-        worksheet.column_dimensions[get_column_letter(i+1)].width = column_width
+    # column_widths = []
+    # for row in worksheet:
+    #     for i, cell in enumerate(row):
+    #         if len(column_widths) > i:
+    #             if len(cell) > column_widths[i]:
+    #                 column_widths[i] = len(cell)
+    #         else:
+    #             column_widths += [len(cell)]
+
+    # for i, column_width in enumerate(column_widths):
+    #     worksheet.column_dimensions[get_column_letter(i+1)].width = column_width
+
