@@ -40,6 +40,8 @@ muchasPromos = readExcel(filename)
 resultadoIBMS = []
 
 #aca itero las promos para armar la plani IBMS
+#TAL VEZ tenga que chequear aca el flag de Cross, para armar otra lista con los crosschannel
+#seguramente acá vayan las llamadas a todas las funciones para armar todas las listas.
 for promo in muchasPromos: 
   listaPromos = IBMSlistMaker(promo) 
   resultadoIBMS.append(listaPromos)

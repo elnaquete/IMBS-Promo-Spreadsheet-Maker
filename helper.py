@@ -1,6 +1,12 @@
 
 #FUNCIONES Y CODIGO AUXILIAR QUE FUE LIMPIANDO DEL MAIN. 
 
+from datetime import datetime
+
+
+genStartDate = datetime(2020,10,1,18)
+showName = 'BREAKING MUSIC 01'
+print (genStartDate.strftime('%Y_%m_') + showName)
 
 
 #Esto lo hice para que me ayude con los horarios de Mex
@@ -36,7 +42,7 @@
 #este fue el destination fallido para los bumps
 
 
-resultadoBumpsIBMS = [] #este tendria que borrarlo
+
 # ACA HAY QUE ARREGLAR EL TEMA DE LOS BUMPS Y LA DESTINATION DE LIST MAKER
 
 # for promo in muchasPromos: #aca itero los bumps para plani IBMS
@@ -49,49 +55,51 @@ resultadoBumpsIBMS = [] #este tendria que borrarlo
 
 ## ACA VA TODO LO QUE ESTABA EN WRITE2EXCEL, TODO LO QUE USE PARA APRENDER A ESCRIBIR .XLSX
 
-from openpyxl import Workbook
-from datetime import datetime
+# from openpyxl import Workbook
+
+
+
 
 
 
 
 #PRUEBO DE PEGAR UNA LINEA EN UN EXCEL
-wb = Workbook() #creo libro nuevo
-ws1 = wb.active #hago la hoja activa
-for row in range (3):
-  ws1.append(listMaker(promo))
+# wb = Workbook() #creo libro nuevo
+# ws1 = wb.active #hago la hoja activa
+# for row in range (3):
+#   ws1.append(listMaker(promo))
 
-dest_filename = 'prueba.xlsx'
-wb.save(filename = dest_filename)
-
-
-
-#para crear libro nuevo
-wb = Workbook() #creo libro nuevo
-#ws1 = wb.create_sheet("Nac2") # creo hoja nueva, insertada al final (default)
-#ws1.title = "Nac" #cambio el nombre de la hoja creada
-
-dest_filename = 'prueba.xlsx'
-name = 'Promo'
-
-lista = [showName, premiereDate, 'canal', startDate]
-ws1 = wb.active #hago la hoja activa
-ws1.title = "range names" #le pongo nombre
-#for row in range(1, 40): #itero filas 1 a 39 ;)
-#  ws1.append(range(600)) #le agrego del 0 al 599, 1 valor por celda -Esta es la que tengo que usar
-for row in range (3):
-  ws1.append(lista)
-
-ws2 = wb.create_sheet(title="Pi")
-ws2['F5'] = 3.14
-ws2['G5'] = '03/10/2020 20:00'
-ws2['A1'] = premiereDate 
+# dest_filename = 'prueba.xlsx'
+# wb.save(filename = dest_filename)
 
 
 
-print(ws2['F5'].value)
+# #para crear libro nuevo
+# wb = Workbook() #creo libro nuevo
+# #ws1 = wb.create_sheet("Nac2") # creo hoja nueva, insertada al final (default)
+# #ws1.title = "Nac" #cambio el nombre de la hoja creada
 
-wb.save(filename = dest_filename)
+# dest_filename = 'prueba.xlsx'
+# name = 'Promo'
+
+# lista = [showName, premiereDate, 'canal', startDate]
+# ws1 = wb.active #hago la hoja activa
+# ws1.title = "range names" #le pongo nombre
+# #for row in range(1, 40): #itero filas 1 a 39 ;)
+# #  ws1.append(range(600)) #le agrego del 0 al 599, 1 valor por celda -Esta es la que tengo que usar
+# for row in range (3):
+#   ws1.append(lista)
+
+# ws2 = wb.create_sheet(title="Pi")
+# ws2['F5'] = 3.14
+# ws2['G5'] = '03/10/2020 20:00'
+# ws2['A1'] = premiereDate 
+
+
+
+# print(ws2['F5'].value)
+
+# wb.save(filename = dest_filename)
 
 ##para abrir libro ya existente
 #from openpyxl import load_workbook

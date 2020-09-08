@@ -7,9 +7,9 @@ def strToBool (str):
   '''
   #Ojo: para pasar los 'True' a booleanos, hay que usar un if, no hay un casting directo. (cualquier string
   #con contenido evalua a True)
-  if str.lower() == 'true':
+  if str.lower() == 'si':
     return True
-  elif str.lower() == 'false':
+  elif str.lower() == 'no':
     return False
 
 
