@@ -883,7 +883,6 @@ def IBMSlistMaker(promo):
             ]
             #Sumo las filas a la lista y devuelvo lista
             return [showFeed, genIBMS, manGenIBMS, hoyGenIBMS]
-
         elif promo['promoPckg'] == 'PUNTUAL': 
             #Avance con Fecha (como hay version mañana, se acaba un dia antes)
             strAvance = properDay(premiereDate, feedLang) + " " + str(
@@ -933,6 +932,16 @@ def IBMSlistMaker(promo):
             ]
             #Sumo las filas a la lista y devuelvo lista
             return [showFeed, genIBMS]
+        elif promo['promoPckg'] == 'CLUB':
+            #armo una lista con un solo item, la promo del club
+            strGen = "PROMO PREMIO " + str(
+                properMonth(premiereDate, feedLang))
+            genClub = [
+                promoCode.upper(), 0, 2500, 2500,
+                strGen.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7))
+            ]
+            return [showFeed, genClub]
     else:
         return []
 
@@ -945,7 +954,7 @@ def IBMSlistMaker(promo):
 
 #AMC, F&A
 # Faltan las versiones Puntuales en EE y F&A
-# Falta F&A Brasil
+
 
 #REVISAR LA CONDUCTA CON LOS BUMPS. QUE FEEDS DEJA Y QUE FEEDS NO. OK
 #QUE HACE CUANDO SE INGRESA UN BUMP A UN CANAL ERRONEO. OK con GOURMET NORTE y con MC USA, falta el resto
