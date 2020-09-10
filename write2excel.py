@@ -6,7 +6,7 @@ def write2excelIBMS (list2print, dest_filename):
     '''
     encabezadoIBMS = [
     'Promo Name', 'Time Code In', 'Time Code Out', 'Length', 'Detail',
-    'Feed', 'MainMI', 'AFP', 'START', 'END', 'DUE DATE'
+    'Feed', 'MainMI', 'AFP', 'START', 'END', 'DUE DATE', 'Allowed Days'
     ]
     from openpyxl import Workbook
 
@@ -86,6 +86,7 @@ def columnTidier (workbook):  #Puesto a mano, luego vemos de automatizarlo.
         sheet.column_dimensions['I'].width = 10
         sheet.column_dimensions['J'].width = 10
         sheet.column_dimensions['K'].width = 10
+        sheet.column_dimensions['L'].width = 15
 
     #Esta es la version que no pude hacer andar
     # from openpyxl.utils import get_column_letter

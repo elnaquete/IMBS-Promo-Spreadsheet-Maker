@@ -29,6 +29,9 @@ def IBMSlistMaker(promo):
 
     #para hacer el nombre 2020_12_etc:
     promoCode = premiereJustDate.strftime('%Y_%m_') + (str(promo['showName']))
+    #para los dias de la semana del Allowed Days
+    allowedDayToday = (premiereJustDate.strftime('%a')).upper()
+    allowedDayTomorrow = ((premiereJustDate - timedelta(1)).strftime('%a')).upper()
         
     if promo['showFeed'] == 'EGSUR':
         if promo['promoPckg'] == 'ESTRENO':
@@ -829,9 +832,8 @@ def IBMSlistMaker(promo):
                 feed = 'LATAM'
             if promo['showFeed'] == 'AMCNORCOL':
                 feed = 'NORTH + COLOMBIA'
-        #CASOS ESPECIALES: STUNT - HECHO // 
-        # Faltan MARATON y  EPISODICAS 
-        #(PROMO MEDIODIA SE VENDE COMO GENERICA)
+        # Faltan  SERIES GEN y SERIES EPISODICAS (O VAN COMO PUNTUALES?)
+        #(PROMO MEDIODIA SE VENDE COMO GENERICA - MARATON se vende como PUNTUAL)
         if promo['promoPckg'] == 'STUNT':
             #la gen con fechas
             strGen = str(promo['genDateStr'])
@@ -850,7 +852,37 @@ def IBMSlistMaker(promo):
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             return [showFeed, avanceIBMS, hoyIBMS]
-
+        elif promo['promoPckg'] == 'GEN_SERIES': 
+            #GEN_SERIES es para las promos genéricas de series de AMC (con DIA, MANANA Y HOY)
+            #la generica (VER DE AGREGARLE ALLOWED DAYS)
+            strGen = str(promo['genDateStr']) + " " + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi']))
+            genIBMS = [
+                promoCode.upper() + ' GEN', 0, 3000, 3000,
+                strGen.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7))
+            ]
+            #Version Mañana (generica)
+            strManGen = tomorrowStr + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi']))
+            manGenIBMS = [
+                promoCode.upper() + ' GEN ' + tomorrowStr, 0, 3000, 3000,
+                strManGen.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7)), allowedDayTomorrow
+            ]
+            #Version Hoy - GENERICA
+            strHoy = todayStr + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi']))
+            hoyGenIBMS = [
+                promoCode.upper() + ' GEN ' + todayStr, 0, 3000, 3000,
+                strHoy.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7)), allowedDayToday
+            ]
+            #Sumo las filas a la lista y devuelvo lista
+            return [showFeed, genIBMS, manGenIBMS, hoyGenIBMS]
 
         elif promo['promoPckg'] == 'PUNTUAL': 
             #Avance con Fecha (como hay version mañana, se acaba un dia antes)

@@ -104,7 +104,7 @@ def properTime(date, feed, mexDst, chiDst):
         chiTime = mexTime + timedelta(0, 7200) #sumo 2 h
       #devuelvo string
       dateItems = [
-      mexTime.strftime('%I:%M %p Méx'), colTime.strftime('%I:%M %p Col'), chiTime.strftime('%I:%M %p Chi')
+      mexTime.strftime('%-I:%M %p Méx'), colTime.strftime('%-I:%M %p Col'), chiTime.strftime('%-I:%M %p Chi')
       ]
       return ' '.join(dateItems)
     
@@ -117,7 +117,7 @@ def properTime(date, feed, mexDst, chiDst):
         chiTime = colTime + timedelta(0, 3600) #sumo 1 h
         argTime = colTime + timedelta(0, 7200) #sumo 2 h
       dateItems = [
-      colTime.strftime('%I:%M %p Col'), chiTime.strftime('%I:%M %p Chi'), argTime.strftime('%I:%M %p Arg')]
+      colTime.strftime('%-I:%M %p Col'), chiTime.strftime('%-I:%M %p Chi'), argTime.strftime('%-I:%M %p Arg')]
       return ' '.join(dateItems)
 
     elif feed == 'MCUSA':
@@ -126,13 +126,13 @@ def properTime(date, feed, mexDst, chiDst):
       if mexDst == True:
         mexTime = eastTime - timedelta(0, 3600) #resto 1 h
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx'), eastTime.strftime('%I:%M %p Este')
+        mexTime.strftime('%-I:%M %p Méx'), eastTime.strftime('%-I:%M %p Este')
         ]
         return ' '.join(dateItems)
       else:
         mexTime = eastTime - timedelta(0, 7200) #resto 1 h
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx'), eastTime.strftime('%I:%M %p Este')
+        mexTime.strftime('%-I:%M %p Méx'), eastTime.strftime('%-I:%M %p Este')
         ]
         return ' '.join(dateItems)
     
@@ -142,7 +142,7 @@ def properTime(date, feed, mexDst, chiDst):
         mexTime = argTime - timedelta(0, 7200) #resto 2 h
         venTime = argTime - timedelta(0, 3600) #resto 1 h
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx/Col'), venTime.strftime('%H:%M Ven'), argTime.strftime('%H:%M Arg/Chi')]
+        mexTime.strftime('%-I:%M %p Méx/Col'), venTime.strftime('%H:%M Ven'), argTime.strftime('%H:%M Arg/Chi')]
         return ' '.join(dateItems)
       elif mexDst == False and chiDst == True: #4 horarios, Chi con Arg
         mexTime = argTime - timedelta(0, 10800) #resto 3 h
@@ -151,14 +151,14 @@ def properTime(date, feed, mexDst, chiDst):
         chiTime = argTime
         
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx'), colTime.strftime('%I:%M %p Col'), venTime.strftime('%H:%M Ven'), argTime.strftime('%H:%M Arg/Chi')]
+        mexTime.strftime('%-I:%M %p Méx'), colTime.strftime('%-I:%M %p Col'), venTime.strftime('%H:%M Ven'), argTime.strftime('%H:%M Arg/Chi')]
         return ' '.join(dateItems)
       elif mexDst == True and chiDst == False: #3 horarios, Chi con Ven
         mexTime = argTime - timedelta(0, 7200) #resto 2 h
         venTime = argTime - timedelta(0, 3600) #resto 1 h
         
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx/Col'), venTime.strftime('%H:%M Ven/Chi'), argTime.strftime('%H:%M Arg')]
+        mexTime.strftime('%-I:%M %p Méx/Col'), venTime.strftime('%H:%M Ven/Chi'), argTime.strftime('%H:%M Arg')]
         return ' '.join(dateItems)
 
       elif mexDst == False and chiDst == False:
@@ -167,7 +167,7 @@ def properTime(date, feed, mexDst, chiDst):
         venTime = argTime - timedelta(0, 3600) #resto 1 h
 
         dateItems = [
-        mexTime.strftime('%I:%M %p Méx'), colTime.strftime('%I:%M %p Col'), venTime.strftime('%H:%M Ven/Chi'), argTime.strftime('%H:%M Arg')]
+        mexTime.strftime('%-I:%M %p Méx'), colTime.strftime('%-I:%M %p Col'), venTime.strftime('%H:%M Ven/Chi'), argTime.strftime('%H:%M Arg')]
         return ' '.join(dateItems)
     elif feed == 'AMCSUR':
      return date.strftime('%H:%M')
@@ -179,11 +179,11 @@ def properTime(date, feed, mexDst, chiDst):
       perTime = argTime - timedelta(0, 7200) #resto 1 h
       if chiDst == True:
         dateItems = [
-        argTime.strftime('%H:%M Arg/Chi'), venTime.strftime('%H:%M Ven'), perTime.strftime('%I:%M %p Per')]
+        argTime.strftime('%H:%M Arg/Chi'), venTime.strftime('%H:%M Ven'), perTime.strftime('%-I:%M %p Per')]
         return ' '.join(dateItems)
       else:
         dateItems = [
-        argTime.strftime('%H:%M Arg'), venTime.strftime('%H:%M Chi/Ven'), perTime.strftime('%I:%M %p Per')]
+        argTime.strftime('%H:%M Arg'), venTime.strftime('%H:%M Chi/Ven'), perTime.strftime('%-I:%M %p Per')]
         return ' '.join(dateItems)
     elif feed == 'AMCBRASIL':
      return date.strftime('%Hh%M')
