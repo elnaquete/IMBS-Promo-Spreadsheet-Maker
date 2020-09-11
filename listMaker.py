@@ -1,5 +1,6 @@
 from naming import returnWeekday, properTime, properMonth, properDay
 from datetime import date, datetime, timedelta
+from unidecode import unidecode
 
 
 def IBMSlistMaker(promo):
@@ -28,7 +29,7 @@ def IBMSlistMaker(promo):
     dueDate = returnWeekday(startDate - timedelta(7))  #para plani Seguimiento
 
     #para hacer el nombre 2020_12_etc:
-    promoCode = premiereJustDate.strftime('%Y_%m_') + (str(promo['showName']))
+    promoCode = unidecode(premiereJustDate.strftime('%Y_%m_') + (str(promo['showName'])))
     #para los dias de la semana del Allowed Days
     allowedDayToday = (premiereJustDate.strftime('%a')).upper()
     allowedDayTomorrow = ((premiereJustDate - timedelta(1)).strftime('%a')).upper()
@@ -37,21 +38,21 @@ def IBMSlistMaker(promo):
         if promo['promoPckg'] == 'ESTRENO':
             #armo las listas de IBMS
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV FS", 0, 3000, 3000,
                 strAvance.upper(), "SOUTH", '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN FS', 0, 3000, 3000,
                 strGen.upper(), "SOUTH", '', 10, startGenDate, endGenDate,
@@ -68,21 +69,21 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, genIBMS, reduxAContIBMS]
         elif promo['promoPckg'] == 'NT' or promo['promoPckg'] == 'CAPS ESTRENO':
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV FS", 0, 3000, 3000,
                 strAvance.upper(), "SOUTH", '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN FS', 0, 3000, 3000,
                 strGen.upper(), "SOUTH", '', 10, startGenDate, endGenDate,
@@ -100,16 +101,16 @@ def IBMSlistMaker(promo):
         elif promo['promoPckg'] == 'PUNTUAL':
             #Solo Avance y el Redux A cont. No hay Gen.
             #Calcula la fecha de venta,, segun si es o no en el mismo mes que se emite) ¿Versiones Hoy?
-            strPuntualConMes = "El " + properDay(
+            strPuntualConMes = unidecode("El " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
-            strPuntualSinMes = properDay(premiereDate, 'SPA') + " " + str(
+                                        promo['dstMex'], promo['dstChi'])))
+            strPuntualSinMes = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             if premiereDate.month != startDate.month:  #Si la puntual sale al aire el mes anterior, decimos mes.
                 puntualIBMS = [
                     promoCode.upper() + " AV FS", 0, 3000, 3000,
@@ -178,26 +179,31 @@ def IBMSlistMaker(promo):
             #Sumo las filas a la lista y devuelvo lista
             return [showFeed, bumpAContIBMS]
         else:
-            return []
+            showFeed = ['ALERTAS']
+            #Bump a cont
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]
     elif promo['showFeed'] == 'EGNOR':
         if promo['promoPckg'] == 'ESTRENO':
             #armo las listas de IBMS
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV FN", 0, 3000, 3000,
                 strAvance.upper(), "NORTH", '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN FN', 0, 3000, 3000,
                 strGen.upper(), "NORTH", '', 10, startGenDate, endGenDate,
@@ -207,21 +213,21 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, genIBMS]
         elif promo['promoPckg'] == 'NT':
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV FN", 0, 3000, 3000,
                 strAvance.upper(), "NORTH", '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN FN', 0, 3000, 3000,
                 strGen.upper(), "NORTH", '', 10, startGenDate, endGenDate,
@@ -232,16 +238,16 @@ def IBMSlistMaker(promo):
         elif promo['promoPckg'] == 'PUNTUAL':
             #Solo Avance(el Redux A cont va por Feed Sur). No hay Gen.
             #Calcula la fecha de venta,, segun si es o no en el mismo mes que se emite) ¿Versiones Hoy? x ahora no
-            strPuntualConMes = "El " + properDay(
+            strPuntualConMes = unidecode("El " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
-            strPuntualSinMes = properDay(premiereDate, 'SPA') + " " + str(
+                                        promo['dstMex'], promo['dstChi'])))
+            strPuntualSinMes = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             if premiereDate.month != startDate.month:  #Si la puntual sale al aire el mes anterior, decimos mes.
                 puntualIBMS = [
                     promoCode.upper() + " AV FN", 0, 3000, 3000,
@@ -260,9 +266,9 @@ def IBMSlistMaker(promo):
 
         elif promo['promoPckg'] == 'REP':
             #solo la generica, es un REP
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' REP FN', 0, 3000, 3000,
                 strGen.upper(), "NORTH", '', 10, startGenDate, endGenDate,
@@ -271,9 +277,9 @@ def IBMSlistMaker(promo):
             return [showFeed, genIBMS]
         elif promo['promoPckg'] == 'GEN':
             #armo las listas de IBMS - solo la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN FS', 0, 3000, 3000,
                 strGen.upper(), "SOUTH", '', 10, startGenDate, endGenDate,
@@ -287,17 +293,21 @@ def IBMSlistMaker(promo):
             ]
             #Sumo las filas a la lista y devuelvo lista
             return [showFeed, bumpAContIBMS]
-            
         else:
-            return []
+            showFeed = ['ALERTAS']
+            #Bump a cont
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]            
     elif promo['showFeed'] == 'EE':
         feed = 'LATAM'
         if promo['promoPckg'] == 'ESTRENO':
             #Avance con Fecha
-            strAvance = properDay(premiereDate, 'SPA') + " " + str(
+            strAvance = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV " + str(
                     properDay(premiereDate, 'SPA').upper()) + " " + str(
@@ -315,9 +325,9 @@ def IBMSlistMaker(promo):
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN', 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, premiereJustDate, endGenDate,
@@ -336,10 +346,10 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, hoyIBMS, genIBMS, hoyGenIBMS]
         elif promo['promoPckg'] == 'NT' or promo['promoPckg'] == 'CAPS ESTRENO':
             #Avance con Fecha
-            strAvance = properDay(premiereDate, 'SPA') + " " + str(
+            strAvance = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV " + str(
                     properDay(premiereDate, 'SPA').upper()) + " " + str(
@@ -357,9 +367,9 @@ def IBMSlistMaker(promo):
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN', 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, premiereJustDate, endGenDate,
@@ -378,10 +388,10 @@ def IBMSlistMaker(promo):
 
         elif promo['promoPckg'] == 'PUNTUAL':
             #PUNTUAL con Fecha
-            strAvance = properDay(premiereDate, 'SPA') + " " + str(
+            strAvance = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " PUNT " + str(
                     properDay(premiereDate, 'SPA').upper()) + " " + str(
@@ -401,9 +411,9 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, hoyIBMS]
         elif promo['promoPckg'] == 'REP':
             #REP - versiones GEN y HOY
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' REP', 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -421,9 +431,9 @@ def IBMSlistMaker(promo):
             return [showFeed, genIBMS, hoyIBMS]
         elif promo['promoPckg'] == 'GEN':
             #la generica (no hay avance)
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN', 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -452,21 +462,21 @@ def IBMSlistMaker(promo):
         elif promo['promoPckg'] == 'BUMP':
             showFeed = 'BUMPS EE'
             #Bumps a cont
-            ahoraComienzaIBMS = [
-            "AHORA COMIENZA - " + (str(promo['showName'])).upper(),
+            ahoraComienzaIBMS = [unidecode(
+            "AHORA COMIENZA - " + (str(promo['showName'])).upper()),
             0, 700, 700, "NEXT", feed, " ", 10, premiereJustDate,
             bumpEndDate,
             returnWeekday(premiereJustDate - timedelta(7))
             ]
-            ensegVolvemosIBMS = [
+            ensegVolvemosIBMS = [unidecode(
             "ENSEGUIDA VOLVEMOS - " + (str(
-            promo['showName'])).upper(), 0, 700, 700,
+            promo['showName'])).upper()), 0, 700, 700,
             "STAY TUNED", feed, " ", 10, premiereJustDate,
             bumpEndDate,
             returnWeekday(premiereJustDate - timedelta(7))
             ]
-            yaVolvimosIBMS = [
-            "YA VOLVIMOS - " + (str(promo['showName'])).upper(), 0,
+            yaVolvimosIBMS = [unidecode(
+            "YA VOLVIMOS - " + (str(promo['showName'])).upper()), 0,
             700, 700, "NOW", feed, " ", 10, premiereJustDate,
             bumpEndDate,
             returnWeekday(premiereJustDate - timedelta(7))
@@ -476,7 +486,12 @@ def IBMSlistMaker(promo):
             yaVolvimosIBMS
             ]
         else:
-            return []
+            showFeed = ['ALERTAS']
+            #Bump a cont
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]
     elif promo['showFeed'] == 'MCLATAM' or promo['showFeed'] == 'MCUSA':
         if promo['showFeed'] == 'MCLATAM':
             feed = 'LATAM'
@@ -485,21 +500,21 @@ def IBMSlistMaker(promo):
         if promo['promoPckg'] == 'ESTRENO':
             #armo las listas de IBMS
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV " + feed, 0, 3000, 3000,
                 strAvance.upper(), feed, '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN ' + feed, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -509,21 +524,21 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, genIBMS]
         elif promo['promoPckg'] == 'NT' or promo['promoPckg'] == 'CAPS ESTRENO':
             #el Avance
-            strAvance = "Desde el " + properDay(
+            strAvance = unidecode("Desde el " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
+                                        promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " AV " + feed, 0, 3000, 3000,
                 strAvance.upper(), feed, '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN ' + feed, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -533,16 +548,16 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, genIBMS]
         elif promo['promoPckg'] == 'PUNTUAL':
             #Solo Puntual
-            strPuntualConMes = "El " + properDay(
+            strPuntualConMes = unidecode("El " + properDay(
                 premiereDate, 'SPA') + " " + str(
                     premiereDate.day) + " de " + str(
                         properMonth(premiereDate, 'SPA')) + " " + str(
                             properTime(premiereDate, promo['showFeed'],
-                                        promo['dstMex'], promo['dstChi']))
-            strPuntualSinMes = properDay(premiereDate, 'SPA') + " " + str(
+                                        promo['dstMex'], promo['dstChi'])))
+            strPuntualSinMes = unidecode(properDay(premiereDate, 'SPA') + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             if premiereDate.month != startDate.month:  #Si la puntual sale al aire el mes anterior, decimos mes.
                 puntualIBMS = [
                     promoCode.upper() + " " + feed, 0, 3000, 3000,
@@ -560,9 +575,9 @@ def IBMSlistMaker(promo):
             return [showFeed, puntualIBMS]
         elif promo['promoPckg'] == 'REP':
             #solo la generica, es un REP
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             repIBMS = [
                 promoCode.upper() + ' REP ' + feed, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -571,9 +586,9 @@ def IBMSlistMaker(promo):
             return [showFeed, repIBMS]
         elif promo['promoPckg'] == 'GEN':
             #armo las listas de IBMS - solo la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN ' + feed, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -594,8 +609,8 @@ def IBMSlistMaker(promo):
             if promo['showFeed'] == 'MCLATAM':
                 showFeed = 'BUMPS MC'
                 #PROMO a cont (En MC no hay bumps, son promos A Cont que duran 30 segundos)
-                bumpAContIBMS = [
-                'A CONT-' + (str(promo['showName'])).upper(), 0, 3000,
+                bumpAContIBMS = [unidecode(
+                'A CONT-' + (str(promo['showName'])).upper()), 0, 3000,
                 3000, "A CONTINUACION", feed, " ", 10, startGenDate,
                 bumpEndDate,
                 returnWeekday(startGenDate - timedelta(7))
@@ -607,30 +622,36 @@ def IBMSlistMaker(promo):
             elif promo['showFeed'] == 'MCUSA': #si es de feed USA:
                 showFeed = ['ALERTAS']
                 #Bump a cont
-                bumpAContIBMS = ['LOS BUMPS SE CARGAN EN EL FEED MAS CHIC LATAM. BUMP DE', promoCode.upper(), 'NO CARGADO.'
+                bumpAContIBMS = ['LOS BUMPS SE CARGAN EN EL FEED MAS CHIC LATAM. BUMP DE ' 
+                    + promoCode.upper() + ' NO CARGADO.'
                 ]
                 #Sumo las filas a la lista y devuelvo lista
                 return [showFeed, bumpAContIBMS]
         else:
-            return []
+            showFeed = ['ALERTAS']
+            #Bump a cont
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]
     elif promo['showFeed'] == 'FALATAM' or promo['showFeed'] == 'FABRASIL':
         if promo['showFeed'] == 'FALATAM':
             feed = 'LATAM + MEXICO'
             feedLang = 'SPA'
-            tomorrowStr = 'MANANA '
+            tomorrowStr = 'MAÑANA '
             todayStr = 'HOY '
         else:
             feed = 'BRASIL'
             feedLang = 'BRA'
-            tomorrowStr = 'AMANHA '
+            tomorrowStr = 'AMANHÃ '
             todayStr = 'HOJE '
-        
+
         if promo['promoPckg'] == 'ESTRENO' or promo['promoPckg'] == 'NT' or promo['promoPckg'] == 'CAPS ESTRENO':
             #Avance con Fecha (como hay version mañana, se acaba un dia antes)
-            strAvance = properDay(premiereDate, feedLang) + " " + str(
+            strAvance = unidecode(properDay(premiereDate, feedLang) + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " ESTRENO " + str(
                     properDay(premiereDate, feedLang).upper()) + " " + str(
@@ -639,9 +660,9 @@ def IBMSlistMaker(promo):
                 returnWeekday(startDate - timedelta(7))
             ]
             #Version Mañana -estreno
-            strMan = tomorrowStr + str(
+            strMan = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                    promo['dstMex'], promo['dstChi']))
+                    promo['dstMex'], promo['dstChi'])))
             manStartDate = premiereJustDate - timedelta(1)
             manIBMS = [
                 promoCode.upper() + " ESTRENO " + tomorrowStr , 0, 3000, 3000,
@@ -649,36 +670,36 @@ def IBMSlistMaker(promo):
                 manStartDate, returnWeekday(manStartDate - timedelta(7))
             ]
             #Version Hoy (estreno)
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyIBMS = [
                 promoCode.upper() + ' ESTRENO ' + todayStr, 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, premiereJustDate, premiereJustDate,
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + ' GEN', 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7))
             ]
             #Version Mañana (generica)
-            strManGen = tomorrowStr + str(
+            strManGen = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             manGenIBMS = [
                 promoCode.upper() + ' GEN ' + tomorrowStr, 0, 3000, 3000,
                 strManGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7))
             ]
             #Version Hoy - GENERICA
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyGenIBMS = [
                 promoCode.upper() + ' GEN ' + todayStr, 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -688,10 +709,10 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, manIBMS, hoyIBMS, genIBMS, manGenIBMS, hoyGenIBMS]
         elif promo['promoPckg'] == 'PUNTUAL': 
             #Avance con Fecha (como hay version mañana, se acaba un dia antes)
-            strAvance = properDay(premiereDate, feedLang) + " " + str(
+            strAvance = unidecode(properDay(premiereDate, feedLang) + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
                 promoCode.upper() + " PUNT " + str(
                     properDay(premiereDate, feedLang).upper()) + " " + str(
@@ -700,9 +721,9 @@ def IBMSlistMaker(promo):
                 returnWeekday(startDate - timedelta(7))
             ]
             #Version Mañana -estreno
-            strMan = tomorrowStr + str(
+            strMan = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                    promo['dstMex'], promo['dstChi']))
+                    promo['dstMex'], promo['dstChi'])))
             manStartDate = premiereJustDate - timedelta(1)
             manIBMS = [
                 promoCode.upper() + " " + tomorrowStr, 0, 3000, 3000,
@@ -710,9 +731,9 @@ def IBMSlistMaker(promo):
                 manStartDate, returnWeekday(manStartDate - timedelta(7))
             ]
             #Version Hoy (estreno)
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyIBMS = [
                 promoCode.upper() + " " + todayStr, 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, premiereJustDate, premiereJustDate,
@@ -725,27 +746,27 @@ def IBMSlistMaker(promo):
             else:
                 repGenString = " GEN "
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + repGenString, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             #Version Mañana (generica)
-            strManGen = tomorrowStr + str(
+            strManGen = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             manGenIBMS = [
                 promoCode.upper() + repGenString + ' ' + tomorrowStr, 0, 3000, 3000,
                 strManGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
             #Version Hoy - GENERICA
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyGenIBMS = [
                 promoCode.upper() + repGenString + ' ' + todayStr, 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -764,25 +785,25 @@ def IBMSlistMaker(promo):
                 returnWeekday(startGenDate - timedelta(7))
             ]
             return [showFeed, genClub]
-        elif promo['promoPckg'] == 'BUMP': #Hecho para Latam, falta Brasil
+        elif promo['promoPckg'] == 'BUMP':
             if promo['showFeed'] == 'FALATAM':
                 showFeed = 'BUMPS FA LATAM'
                 #Bumps a cont
-                ahoraComienzaIBMS = [
-                "ACONTINUACION - " + (str(promo['showName'])).upper(),
+                ahoraComienzaIBMS = [unidecode(
+                "ACONTINUACION - " + (str(promo['showName'])).upper()),
                 0, 700, 700, "NEXT", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
                 ]
-                ensegVolvemosIBMS = [
+                ensegVolvemosIBMS = [unidecode(
                 "ENSEGUIDA REGRESAMOS - " + (str(
-                promo['showName'])).upper(), 0, 700, 700,
+                promo['showName'])).upper()), 0, 700, 700,
                 "STAY TUNED", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
                 ]
-                yaVolvimosIBMS = [
-                "CONTINUAMOS VIENDO - " + (str(promo['showName'])).upper(), 0,
+                yaVolvimosIBMS = [unidecode(
+                "CONTINUAMOS VIENDO - " + (str(promo['showName'])).upper()), 0,
                 700, 700, "NOW", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
@@ -793,21 +814,21 @@ def IBMSlistMaker(promo):
             else:
                 showFeed = 'BUMPS FA BRASIL'
                 #Bumps a cont
-                ahoraComienzaIBMS = [
-                "ASEGUIR - " + (str(promo['showName'])).upper(),
+                ahoraComienzaIBMS = [unidecode(
+                "ASEGUIR - " + (str(promo['showName'])).upper()),
                 0, 700, 700, "NEXT", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
                 ]
-                ensegVolvemosIBMS = [
+                ensegVolvemosIBMS = [unidecode(
                 "ESTAMOS APRESENTANDO - " + (str(
-                promo['showName'])).upper(), 0, 700, 700,
+                promo['showName'])).upper()), 0, 700, 700,
                 "STAY TUNED", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
                 ]
-                yaVolvimosIBMS = [
-                "VOLTAMOS A APRESENTAR - " + (str(promo['showName'])).upper(), 0,
+                yaVolvimosIBMS = [unidecode(
+                "VOLTAMOS A APRESENTAR - " + (str(promo['showName'])).upper()), 0,
                 700, 700, "NOW", feed, " ", 10, premiereJustDate,
                 bumpEndDate,
                 returnWeekday(premiereJustDate - timedelta(7))
@@ -815,16 +836,22 @@ def IBMSlistMaker(promo):
                 return [
                 showFeed, ahoraComienzaIBMS, yaVolvimosIBMS, ensegVolvemosIBMS
                 ]
+        else:
+            showFeed = ['ALERTAS']
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]
     elif promo['showFeed'] == 'AMCSUR' or promo['showFeed'] == 'AMCNORCOL' \
     or promo['showFeed'] == 'AMCLATAM' or promo['showFeed'] == 'AMCBRASIL':
         if promo['showFeed'] == 'AMCBRASIL':
             feed = 'BRAZIL'
             feedLang = 'BRA'
-            tomorrowStr = 'AMANHA '
+            tomorrowStr = 'AMANHÃ '
             todayStr = 'HOJE '
         else:
             feedLang = 'SPA'
-            tomorrowStr = 'MANANA '
+            tomorrowStr = 'MAÑANA '
             todayStr = 'ESTA NOCHE '
             if promo['showFeed'] == 'AMCSUR':
                 feed = 'SOUTH'
@@ -836,16 +863,16 @@ def IBMSlistMaker(promo):
         #(PROMO MEDIODIA SE VENDE COMO GENERICA - MARATON se vende como PUNTUAL)
         if promo['promoPckg'] == 'STUNT':
             #la gen con fechas
-            strGen = str(promo['genDateStr'])
+            strGen = unidecode(str(promo['genDateStr']))
             avanceIBMS = [
                 promoCode.upper() + " " + strGen.upper(), 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startDate, avEndDate,
                 returnWeekday(startDate - timedelta(7))
             ]
             #Version Esta noche / hoje
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyIBMS = [
                 promoCode.upper() + " " + todayStr, 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, premiereJustDate, endGenDate,
@@ -854,30 +881,59 @@ def IBMSlistMaker(promo):
             return [showFeed, avanceIBMS, hoyIBMS]
         elif promo['promoPckg'] == 'GEN_SERIES': 
             #GEN_SERIES es para las promos genéricas de series de AMC (con DIA, MANANA Y HOY)
-            #la generica (VER DE AGREGARLE ALLOWED DAYS)
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
-                promoCode.upper() + ' GEN', 0, 3000, 3000,
+                unidecode(promoCode.upper() + ' GEN'), 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7))
             ]
             #Version Mañana (generica)
-            strManGen = tomorrowStr + str(
+            strManGen = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             manGenIBMS = [
-                promoCode.upper() + ' GEN ' + tomorrowStr, 0, 3000, 3000,
+                unidecode(promoCode.upper() + ' GEN ' + tomorrowStr), 0, 3000, 3000,
                 strManGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7)), allowedDayTomorrow
             ]
             #Version Hoy - GENERICA
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyGenIBMS = [
-                promoCode.upper() + ' GEN ' + todayStr, 0, 3000, 3000,
+                unidecode(promoCode.upper() + ' GEN ' + todayStr), 0, 3000, 3000,
+                strHoy.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7)), allowedDayToday
+            ]
+            #Sumo las filas a la lista y devuelvo lista
+            return [showFeed, genIBMS, manGenIBMS, hoyGenIBMS]
+        elif promo['promoPckg'] == 'EPISODICA': 
+            #Es igual que GEN_SERIES pero sin la palabra 'GEN'
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi'])))
+            genIBMS = [
+                promoCode.upper(), 0, 3000, 3000,
+                strGen.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7))
+            ]
+            #Version Mañana (generica)
+            strManGen = unidecode(tomorrowStr + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi'])))
+            manGenIBMS = [
+                unidecode(promoCode.upper() + ' ' + tomorrowStr), 0, 3000, 3000,
+                strManGen.upper(), feed, '', 10, startGenDate, endGenDate,
+                returnWeekday(startGenDate - timedelta(7)), allowedDayTomorrow
+            ]
+            #Version Hoy - GENERICA
+            strHoy = unidecode(todayStr + str(
+                properTime(premiereDate, promo['showFeed'],
+                            promo['dstMex'], promo['dstChi'])))
+            hoyGenIBMS = [
+                unidecode(promoCode.upper() + ' ' + todayStr), 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7)), allowedDayToday
             ]
@@ -885,33 +941,33 @@ def IBMSlistMaker(promo):
             return [showFeed, genIBMS, manGenIBMS, hoyGenIBMS]
         elif promo['promoPckg'] == 'PUNTUAL': 
             #Avance con Fecha (como hay version mañana, se acaba un dia antes)
-            strAvance = properDay(premiereDate, feedLang) + " " + str(
+            strAvance = unidecode(properDay(premiereDate, feedLang) + " " + str(
                 premiereDate.day) + " " + str(
                     properTime(premiereDate, promo['showFeed'],
-                                promo['dstMex'], promo['dstChi']))
+                                promo['dstMex'], promo['dstChi'])))
             avanceIBMS = [
-                promoCode.upper() + " PUNT " + str(
+                unidecode(promoCode.upper() + " PUNT " + str(
                     properDay(premiereDate, feedLang).upper()) + " " + str(
-                        premiereDate.day), 0, 3000, 3000,
+                        premiereDate.day)), 0, 3000, 3000,
                 strAvance.upper(), feed, '', 10, startDate, avEndDate - timedelta(1),
                 returnWeekday(startDate - timedelta(7))
             ]
             #Version Mañana -estreno
-            strMan = tomorrowStr + str(
+            strMan = unidecode(tomorrowStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                    promo['dstMex'], promo['dstChi']))
+                    promo['dstMex'], promo['dstChi'])))
             manStartDate = premiereJustDate - timedelta(1)
             manIBMS = [
-                promoCode.upper() + " " + tomorrowStr, 0, 3000, 3000,
+                unidecode(promoCode.upper() + " " + tomorrowStr), 0, 3000, 3000,
                 strMan.upper(), feed, '', 10, manStartDate, 
                 manStartDate, returnWeekday(manStartDate - timedelta(7))
             ]
             #Version Hoy (estreno)
-            strHoy = todayStr + str(
+            strHoy = unidecode(todayStr + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             hoyIBMS = [
-                promoCode.upper() + " " + todayStr, 0, 3000, 3000,
+                unidecode(promoCode.upper() + " " + todayStr), 0, 3000, 3000,
                 strHoy.upper(), feed, '', 10, premiereJustDate, premiereJustDate,
                 returnWeekday(premiereJustDate - timedelta(7))
             ]
@@ -922,9 +978,9 @@ def IBMSlistMaker(promo):
             else:
                 repGenString = " GEN "
             #la generica
-            strGen = str(promo['genDateStr']) + " " + str(
+            strGen = unidecode(str(promo['genDateStr']) + " " + str(
                 properTime(premiereDate, promo['showFeed'],
-                            promo['dstMex'], promo['dstChi']))
+                            promo['dstMex'], promo['dstChi'])))
             genIBMS = [
                 promoCode.upper() + repGenString, 0, 3000, 3000,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
@@ -934,38 +990,28 @@ def IBMSlistMaker(promo):
             return [showFeed, genIBMS]
         elif promo['promoPckg'] == 'CLUB':
             #armo una lista con un solo item, la promo del club
-            strGen = "PROMO PREMIO " + str(
-                properMonth(premiereDate, feedLang))
+            strGen = unidecode("PROMO PREMIO " + str(
+                properMonth(premiereDate, feedLang)))
             genClub = [
                 promoCode.upper(), 0, 2500, 2500,
                 strGen.upper(), feed, '', 10, startGenDate, endGenDate,
                 returnWeekday(startGenDate - timedelta(7))
             ]
             return [showFeed, genClub]
-    else:
-        return []
+        else:
+            showFeed = ['ALERTAS']
+            #Bump a cont
+            errorMsg = ['Disculpe, el tipo de promo ' + str(promo['promoPckg']) + ' solicitado para la promo ' 
+                + promoCode.upper() + ' no esta disponible para la señal ' + str(promo['showFeed'])
+            ]
+            return [showFeed, errorMsg]
 
-        
+   
 
-  
-
-
-
-
-#AMC, F&A
-# Faltan las versiones Puntuales en EE y F&A
-
-
-#REVISAR LA CONDUCTA CON LOS BUMPS. QUE FEEDS DEJA Y QUE FEEDS NO. OK
-#QUE HACE CUANDO SE INGRESA UN BUMP A UN CANAL ERRONEO. OK con GOURMET NORTE y con MC USA, falta el resto
-# agregarlo a AMC. En AMC no implementamos bumps directamente.
-
-#importar unidecode para que le saque los tildes y caracteres raros
-# ej:
-# import unidecode (hay que instalarlo primero)
-# string3 = 'niño NIÑO'
-# unidecode.unidecode(string3)
+# reemplazar llamadas al dict por variables? AUN NO LO SE
 
 
 
-#Y luego la version para la plani de CROSS, y dsp la de Seguimiento. Esa va en una funcion diferente.
+
+#Y luego la version para la plani de CROSS, y dsp la de Seguimiento. Esas va en una funciones diferentes.
+# def IBMSCrossListMaker (promo):

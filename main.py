@@ -25,7 +25,7 @@ promo1 = {
 'endDate': datetime(2020,10,31,18),
 'dstMex': True, 
 'dstChi': True,
-'crossChannel:': False,
+'crossChannel': False,
 'megaCable':	False,
 'a&e':	False,
 'cines':	False,
@@ -38,13 +38,19 @@ filename = 'input.xlsx'
 #muchasPromos = [promo1]
 muchasPromos = readExcel(filename)
 resultadoIBMS = []
+# lista de promos cross (a implementar)
+# crossIBMS = [] 
 
 #aca itero las promos para armar la plani IBMS
 #TAL VEZ tenga que chequear aca el flag de Cross, para armar otra lista con los crosschannel
 #seguramente acá vayan las llamadas a todas las funciones para armar todas las listas.
 for promo in muchasPromos: 
-  listaPromos = IBMSlistMaker(promo) 
-  resultadoIBMS.append(listaPromos)
+    listaPromos = IBMSlistMaker(promo) 
+    resultadoIBMS.append(listaPromos)
+#llamada a la funcion de los CROSS, a implementar:
+    # if promo['crossChannel'] == True:
+    #     listaPromosCross = IBMSCrossListMaker(promo)
+    #     crossIBMS.append(listaPromosCross)
 
 print (resultadoIBMS)
 
