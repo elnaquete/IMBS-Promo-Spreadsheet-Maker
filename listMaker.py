@@ -8,7 +8,8 @@ def IBMSlistMaker(promo):
     IN: dict: info a promocionar, segun claves de variables
     
     OUT: [list of lists] lista con todas las versiones de esa promo para la planilla de IBMS.
-    Cada fila de la planilla es una lista. 
+    La primera lista especifica en que solapa ira la promo, la segunda lista son los valores
+    de la fila en la planilla.
     '''
 
     #Fechas
