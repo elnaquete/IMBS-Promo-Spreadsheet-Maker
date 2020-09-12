@@ -6,6 +6,7 @@ from listMaker import IBMSlistMaker
 from inputHandler import readExcel, strToBool
 from openpyxl import Workbook
 from write2excel import write2excelIBMS
+from gDriveUploader import gDriveUploader
 
 
 
@@ -33,10 +34,12 @@ promo1 = {
 } 
 
 #Este es el nombre del Excel que leera con las promos.
-filename = 'input.xlsx'
+inputFilename = "input.xlsx"
+#Este es el nombre del archivo de Excel que exportará
+outputFilename = "lista_IBMS.xlsx"
 
 #muchasPromos = [promo1]
-muchasPromos = readExcel(filename)
+muchasPromos = readExcel(inputFilename)
 resultadoIBMS = []
 # lista de promos cross (a implementar)
 # crossIBMS = [] 
@@ -55,6 +58,10 @@ for promo in muchasPromos:
 print (resultadoIBMS)
 
 #ACA SIGUE LA IMPLEMENTACION PARA PEGAR TODO EN UN UN EXCEL
-write2excelIBMS(resultadoIBMS, "lista_IBMS.xlsx")
+write2excelIBMS(resultadoIBMS, outputFilename)
 
 #Y despues ver de subirlo al Drive / Office 365
+#Chequear que el Google Auth pueda leer el client_secrets.json, si no esta en el path no lo lee
+#(como por ejemplo en el VS Code, en el Thonny sí lo lee)
+
+gDriveUploader(outputFilename)

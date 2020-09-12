@@ -1,12 +1,44 @@
 
 #FUNCIONES Y CODIGO AUXILIAR QUE FUE LIMPIANDO DEL MAIN. 
 
-from datetime import datetime
+# Para xonseguir ID de archivos y carpetas del Drive:
+
+from pydrive.auth import GoogleAuth
+from pydrive.drive import GoogleDrive
+import os
+
+gauth = GoogleAuth()
+# Try to load saved client credentials
+gauth.LoadCredentialsFile("mycreds.txt")
+if gauth.credentials is None:
+    # Authenticate if they're not there
+    gauth.LocalWebserverAuth()
+elif gauth.access_token_expired:
+    # Refresh them if expired
+    gauth.Refresh()
+else:
+    # Initialize the saved creds
+    gauth.Authorize()
+# Save the current credentials to a file
+gauth.SaveCredentialsFile("mycreds.txt")
+
+drive = GoogleDrive(gauth)
+
+fileList = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+for file in fileList:
+  print('Title: %s, ID: %s' % (file['title'], file['id']))
+  # Get the folder ID that you want
+  if(file['title'] == "To Share"):
+      fileID = file['id']
 
 
-genStartDate = datetime(2020,10,1,18)
-showName = 'BREAKING MUSIC 01'
-print (genStartDate.strftime('%Y_%m_') + showName)
+
+# from datetime import datetime
+
+
+# genStartDate = datetime(2020,10,1,18)
+# showName = 'BREAKING MUSIC 01'
+# print (genStartDate.strftime('%Y_%m_') + showName)
 
 
 #Esto lo hice para que me ayude con los horarios de Mex
