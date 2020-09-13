@@ -3,11 +3,9 @@
 
 from datetime import date, datetime, timedelta
 from listMaker import IBMSlistMaker
-from inputHandler import readExcel, strToBool
-from openpyxl import Workbook
+from inputHandler import readExcel
 from write2excel import write2excelIBMS
 from gDriveUploader import gDriveUploader
-
 
 
 feeds = ['EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
@@ -55,7 +53,7 @@ for promo in muchasPromos:
     #     listaPromosCross = IBMSCrossListMaker(promo)
     #     crossIBMS.append(listaPromosCross)
 
-print (resultadoIBMS)
+#print (resultadoIBMS)
 
 #ACA SIGUE LA IMPLEMENTACION PARA PEGAR TODO EN UN UN EXCEL
 write2excelIBMS(resultadoIBMS, outputFilename)
