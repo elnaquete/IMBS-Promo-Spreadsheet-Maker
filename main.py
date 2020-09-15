@@ -35,12 +35,13 @@ promo1 = {
 #Este es el nombre del Excel que leera con las promos.
 inputFilename = "input.xlsx"
 
-# Este es un intento de darle Timestamp al nombre de archivo
+# Esta es la forma de darle Timestamp al nombre de archivo Excel que exportara
+# para activarlo, cambiar el nombre de la variable en write2Excel
 timeStamp = datetime.now()
-outputFilename = timeStamp.strftime("lista_IBMS %Y_%m_%d %H_%M.xlsx")
+outputFilenameTime = timeStamp.strftime("lista_IBMS %Y_%m_%d %H_%M.xlsx")
+outputFilename = "lista_IBMS.xlsx"
 
-#Este es el nombre del archivo de Excel que exportará
-#outputFilename = "lista_IBMS.xlsx"
+
 
 #muchasPromos = [promo1]
 muchasPromos = readExcel(inputFilename)
