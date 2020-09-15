@@ -1,4 +1,5 @@
 #por ahora así, despues vemos que dependencias se importan o si hacemos un solo archivo.
+#Para que funcione el upload a Drive, hay que agregar el client_secrets.json (esta en el dropbox)
 
 
 from datetime import date, datetime, timedelta
@@ -10,8 +11,8 @@ from gDriveUploader import gDriveUploader
 
 feeds = ['EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
   'FALATAM', 'FABRASIL', 'AMCNETWORKS', 'OFFAIR']
-packs = ['ESTRENO', 'NT', 'REP', 'GEN', 'PUNTUAL', 'CLUB','GEN', 'STUNT', 'MEDIODIA'] #agregar packs = 'CAPS_ESTRENO' (que es igual que NT, no?)
-
+packs = ['ESTRENO', 'NT', 'REP', 'GEN', 'PUNTUAL', 'CLUB','GEN', 'STUNT'] 
+#agregar packs = 'CAPS ESTRENO' 'EPISODICA' 'GEN_SERIES'
 
 
 promo1 = {
@@ -33,8 +34,13 @@ promo1 = {
 
 #Este es el nombre del Excel que leera con las promos.
 inputFilename = "input.xlsx"
+
+# Este es un intento de darle Timestamp al nombre de archivo
+timeStamp = datetime.now()
+outputFilename = timeStamp.strftime("lista_IBMS %Y_%m_%d %H_%M.xlsx")
+
 #Este es el nombre del archivo de Excel que exportará
-outputFilename = "lista_IBMS.xlsx"
+#outputFilename = "lista_IBMS.xlsx"
 
 #muchasPromos = [promo1]
 muchasPromos = readExcel(inputFilename)

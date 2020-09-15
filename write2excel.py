@@ -8,10 +8,13 @@ def columnTidier (workbook):  #Puesto a mano, luego vemos de automatizarlo.
         sheet.column_dimensions['K'].width = 10
         sheet.column_dimensions['L'].width = 15
 
-    #Esta es la version que no pude hacer andar
+
+    #a implementar: copiarle los estilos de las planis de IBMS para que quede bonito.
+
+
+    #Esta es la version que no pude hacer andar (auto ancho de columnas)
     # from openpyxl.utils import get_column_letter
   
-
     # column_widths = []
     # for row in worksheet:
     #     for i, cell in enumerate(row):
@@ -64,6 +67,8 @@ def write2excelIBMS (list2print, dest_filename):
 
     # Ajustar (manualmente) el ancho de las columnas de todas las hojas
     columnTidier(wb)
+    #creo el archivo ("w" especifica que si no existe, lo cree)
+    f = open(dest_filename, "w+")
     #Salvo el libro
     wb.save(filename = dest_filename)
 
