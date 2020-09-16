@@ -7,10 +7,12 @@ def strToBool (str):
     '''
     #Ojo: para pasar los 'True' a booleanos, hay que usar un if, no hay un casting directo. (cualquier string
     #con contenido evalua a True)
-    if str.lower() == 'si':
-        return True
-    elif str.lower() == 'no':
+    if str == None:
         return False
+    elif str.lower() == 'no' or str == '':
+        return False
+    else:
+        return True
 
 
 def readExcel (file = 'input.xlsx'):
@@ -49,39 +51,41 @@ def readExcel (file = 'input.xlsx'):
                     'showFeed': feed,
                     'showName': row[1], 
                     'promoPckg': row[2], 
-                    'premiereDate': row[3],
-                    'genDateStr': row[4], 
-                    'genStartDate': row[5],
-                    'endDate': row[6],    
-                    'dstMex': strToBool(row[7]), 
-                    'dstChi':strToBool(row[8]), 
-                    'crossChannel':strToBool(row[9]),
-                    'megaCable': strToBool(row[10]),
-                    'a&e': strToBool(row[11]),
-                    'cines': strToBool(row[12]),
-                    'foxSports': strToBool(row[13])
+                    'duration': 30 if row[3] == None else int(row[3]),
+                    'premiereDate': row[4],
+                    'genDateStr': row[5], 
+                    'genStartDate': row[6],
+                    'endDate': row[7],    
+                    'dstMex': strToBool(row[8]), 
+                    'dstChi':strToBool(row[9]), 
+                    'crossChannel':strToBool(row[10]),
+                    'megaCable': strToBool(row[11]),
+                    'a&e': strToBool(row[12]),
+                    'cines': strToBool(row[13]),
+                    'foxSports': strToBool(row[14])
                     }
                     output.append(promo)
             else:
                 promo = {
                 'showFeed': row[0],
                 'showName': row[1], 
-                'promoPckg': row[2], 
-                'premiereDate': row[3],
-                'genDateStr': row[4], 
-                'genStartDate': row[5],
-                'endDate': row[6],    
-                'dstMex': strToBool(row[7]), 
-                'dstChi':strToBool(row[8]), 
-                'crossChannel':strToBool(row[9]),
-                'megaCable': strToBool(row[10]),
-                'a&e': strToBool(row[11]),
-                'cines': strToBool(row[12]),
-                'foxSports': strToBool(row[13])
+                'promoPckg': row[2],
+                'duration': 30 if row[3] == None else int(row[3]),
+                'premiereDate': row[4],
+                'genDateStr': row[5], 
+                'genStartDate': row[6],
+                'endDate': row[7],    
+                'dstMex': strToBool(row[8]), 
+                'dstChi':strToBool(row[9]), 
+                'crossChannel':strToBool(row[10]),
+                'megaCable': strToBool(row[11]),
+                'a&e': strToBool(row[12]),
+                'cines': strToBool(row[13]),
+                'foxSports': strToBool(row[14])
                 }
                 output.append(promo)
     
     return output
 
-print(readExcel())
+#print(readExcel())
  

@@ -19,6 +19,7 @@ promo1 = {
 'showFeed': 'FALATAM',
 'showName': 'BREAKING MUSIC 01',
 'promoPckg': 'GEN',
+'duration': 30,
 'premiereDate': datetime(2020,10,1,18),
 'genDateStr': 'MIÉRCOLES',
 'genStartDate': datetime(2020,10,1,18),
@@ -69,4 +70,4 @@ write2excelIBMS(resultadoIBMS, outputFilename)
 #Chequear que el Google Auth pueda leer el client_secrets.json, si no esta en el path no lo lee
 #(como por ejemplo en el VS Code, en el Thonny sí lo lee)
 
-gDriveUploader(outputFilename)
+#gDriveUploader(outputFilename)

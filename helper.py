@@ -1,35 +1,64 @@
 
 #FUNCIONES Y CODIGO AUXILIAR QUE FUE LIMPIANDO DEL MAIN. 
 
+def secondsToTC (duration):
+    '''
+        IN: (int) duration in seconds
+        OUT: (str) duration in TC format ('hh:mm:ss:ff')
+        Won't calculate frames, they will always be 00.
+    '''
+    #primero, si dura mas de una hora.
+    
+    hours = duration // 3600
+    minutes = (duration % 3600) // 60
+    seconds = (duration % 3600) % 60
+
+    return ''.join([str(hours).zfill(2),':',str(minutes).zfill(2),':',str(seconds).zfill(2),':00'])
+
+
+
+print (secondsToTC(30))
+
+
+
+
+
+
+
+
+
+
+
+
 # Para xonseguir ID de archivos y carpetas del Drive:
 
-from pydrive.auth import GoogleAuth
-from pydrive.drive import GoogleDrive
-import os
+# from pydrive.auth import GoogleAuth
+# from pydrive.drive import GoogleDrive
+# import os
 
-gauth = GoogleAuth()
-# Try to load saved client credentials
-gauth.LoadCredentialsFile("mycreds.txt")
-if gauth.credentials is None:
-    # Authenticate if they're not there
-    gauth.LocalWebserverAuth()
-elif gauth.access_token_expired:
-    # Refresh them if expired
-    gauth.Refresh()
-else:
-    # Initialize the saved creds
-    gauth.Authorize()
-# Save the current credentials to a file
-gauth.SaveCredentialsFile("mycreds.txt")
+# gauth = GoogleAuth()
+# # Try to load saved client credentials
+# gauth.LoadCredentialsFile("mycreds.txt")
+# if gauth.credentials is None:
+#     # Authenticate if they're not there
+#     gauth.LocalWebserverAuth()
+# elif gauth.access_token_expired:
+#     # Refresh them if expired
+#     gauth.Refresh()
+# else:
+#     # Initialize the saved creds
+#     gauth.Authorize()
+# # Save the current credentials to a file
+# gauth.SaveCredentialsFile("mycreds.txt")
 
-drive = GoogleDrive(gauth)
+# drive = GoogleDrive(gauth)
 
-fileList = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
-for file in fileList:
-  print('Title: %s, ID: %s' % (file['title'], file['id']))
-  # Get the folder ID that you want
-  if(file['title'] == "To Share"):
-      fileID = file['id']
+# fileList = drive.ListFile({'q': "'root' in parents and trashed=false"}).GetList()
+# for file in fileList:
+#   print('Title: %s, ID: %s' % (file['title'], file['id']))
+#   # Get the folder ID that you want
+#   if(file['title'] == "To Share"):
+#       fileID = file['id']
 
 
 

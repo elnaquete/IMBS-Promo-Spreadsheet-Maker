@@ -2,6 +2,19 @@ from naming import returnWeekday, properTime, properMonth, properDay
 from datetime import date, datetime, timedelta
 from unidecode import unidecode
 
+def secondsToTC (duration):
+    '''
+        IN: (int) duration in seconds
+        OUT: (str) duration in TC format ('hh:mm:ss:ff')
+        Won't calculate frames, they will always be 00.
+    '''
+    #primero, si dura mas de una hora.
+    
+    hours = duration // 3600
+    minutes = (duration % 3600) // 60
+    seconds = (duration % 3600) % 60
+
+    return ''.join([str(hours).zfill(2),':',str(minutes).zfill(2),':',str(seconds).zfill(2),':00'])
 
 def IBMSlistMaker(promo):
     '''
@@ -12,14 +25,28 @@ def IBMSlistMaker(promo):
     de la fila en la planilla.
     '''
 
-    #Fechas
+    #Variables
+    #no referenciar al dict dentro del código, reemplazar todo acá
+
     showFeed = [promo['showFeed']]
+    showName = promo['showName']
+    promoPckg = promo['promoPckg']
+    duration = secondsToTC(promo['duration'])
     premiereDate = promo['premiereDate']
     premiereJustDate = premiereDate.date()
+    genDateStr = promo['genDateStr']
+    dstMexFlag = promo['dstMex']
+    dstChiFlag = promo['dstChi']
+    crossChannelFlag = promo['crossChannel']
+    megaCableFlag = promo['megaCable']
+    aeFlag = promo['a&e']
+    cinesFlag = promo ['cines']
+    foxSportsFlag = promo ['foxSports']
+
+
     startDate = premiereDate.date() - timedelta(14)  #fecha inicio para avances y puntuales -solo dia
     avEndDate = premiereDate.date() - timedelta(1)  #que el avance deje de salir un día antes del estreno
-    startGenDate = promo['genStartDate'].date(
-    )  #fecha de inicio de la gen -solo dia
+    startGenDate = promo['genStartDate'].date()  #fecha de inicio de la gen -solo dia
     endGenDate = promo['endDate'].date()  #fecha fin de las promos gen
     bumpEndDate = date(2022, 12, 31)  #fecha de fin para los bumps
 
