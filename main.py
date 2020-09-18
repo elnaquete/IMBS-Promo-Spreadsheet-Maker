@@ -16,9 +16,9 @@ packs = ['ESTRENO', 'NT', 'REP', 'GEN', 'PUNTUAL', 'CLUB','GEN', 'STUNT']
 
 
 promo1 = {
-'showFeed': 'FALATAM',
+'showFeed': 'EGSUR',
 'showName': 'BREAKING MUSIC 01',
-'promoPckg': 'GEN',
+'promoPckg': 'ESTRENO',
 'duration': 30,
 'premiereDate': datetime(2020,10,1,18),
 'genDateStr': 'MIÉRCOLES',
@@ -61,7 +61,7 @@ for promo in muchasPromos:
     #     listaPromosCross = IBMSCrossListMaker(promo)
     #     crossIBMS.append(listaPromosCross)
 
-#print (resultadoIBMS)
+print (resultadoIBMS)
 
 #ACA SIGUE LA IMPLEMENTACION PARA PEGAR TODO EN UN UN EXCEL
 write2excelIBMS(resultadoIBMS, outputFilename)

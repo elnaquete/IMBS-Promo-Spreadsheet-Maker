@@ -45,19 +45,19 @@ def write2excelIBMS (list2print, dest_filename):
     #la plani por default se llama 'Sheet'. Al final de todo, hay que borrarla, porque esta vacía
 
     for item in list2print: #itero la lista de listas (PROMOS)
-        if ''.join(item[0]) not in wb.sheetnames: #si no hay una hoja con el nombre de esa señal
+        if item[0] not in wb.sheetnames: #si no hay una hoja con el nombre de esa señal
             if item[0] == ['ALERTAS']: #si es un mensaje de alerta, no le agrego encabezado.
-                sheetTitle = ''.join(item[0]) #le doy a la hoja el nombre del primer elemento (header)
+                sheetTitle = item[0][0][0] #le doy a la hoja el nombre del primer elemento (header)
                 wb.create_sheet(title = sheetTitle)  #creo hoja nueva con el nombre de esa señal
                 ws1 = wb[sheetTitle] #asigno a la variable ws1 el nombre de esa plani
             else:
-                sheetTitle = ''.join(item[0]) 
+                sheetTitle = item[0][0][0]
                 wb.create_sheet(title = sheetTitle)  #creo hoja nueva con el nombre de esa señal
                 wb[sheetTitle].append(encabezadoIBMS) #agrego el encabezado al comienzo de la lista
                 ws1 = wb[sheetTitle] #asigno a la variable ws1 el nombre de esa plani
         if item[0] == ['ALERTAS']:
             print(item[1:]) #si es una alerta, que imprima el msj de alerta
-        sheetTitle = ''.join(item[0]) #asigno en que hoja va a trabajar
+        sheetTitle = item[0][0][0] #asigno en que hoja va a trabajar
         ws1 = wb[sheetTitle] #asigno a la variable ws1 el nombre de esa plani
         for promo in item[1:]: #itero promo por promo
             ws1.append(promo)  #la agrego como fila a la planilla ws1
