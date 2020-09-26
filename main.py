@@ -6,15 +6,15 @@ from datetime import date, datetime, timedelta
 from listMaker import IBMSlistMaker
 from inputHandler import readExcel
 from write2excel import write2excelIBMS
+from write2excelv2 import write2excelIBMSv2
 from gDriveUploader import gDriveUploader
 
 
-feeds = ['EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
-  'FALATAM', 'FABRASIL', 'AMCNETWORKS', 'OFFAIR']
-packs = ['ESTRENO', 'NT', 'REP', 'GEN', 'PUNTUAL', 'CLUB','GEN', 'STUNT'] 
-#agregar packs = 'CAPS ESTRENO' 'EPISODICA' 'GEN_SERIES'
+feeds = ('EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
+  'FALATAM', 'FABRASIL')
+packs = ('ESTRENO', 'NT', 'CAPS ESTRENO', 'REP', 'GEN', 'PUNTUAL', 'CLUB', 'STUNT', 'GEN_AMC', 'BUMP', 'PELI DEL MES')
 
-
+#promo1 para pruebas
 promo1 = {
 'showFeed': 'EGSUR',
 'showName': 'BREAKING MUSIC 01',
@@ -44,27 +44,35 @@ outputFilename = "lista_IBMS.xlsx"
 
 
 
-#muchasPromos = [promo1]
-muchasPromos = readExcel(inputFilename)
-resultadoIBMS = []
-# lista de promos cross (a implementar)
-# crossIBMS = [] 
+  
+#listaPromos = []
+listaPromos = readExcel(inputFilename)
 
-#aca itero las promos para armar la plani IBMS
+#test para TODAS las posibilidades
+#A copy of a_dictionary is appended to a_list instead of appending a_dictionary directly 
+# because that would produce a *reference* to a_dictionary instead of a copy.
+promo2 = promo1.copy()
+for feed in feeds:
+    promo2['showFeed'] = feed
+    for pack in packs:
+        promo2['promoPckg'] = pack
+        promo2Copy = promo2.copy()
+        listaPromos.append(promo2Copy)
+
+
+write2excelIBMSv2(listaPromos, outputFilename)
+
+
 #TAL VEZ tenga que chequear aca el flag de Cross, para armar otra lista con los crosschannel
 #seguramente acá vayan las llamadas a todas las funciones para armar todas las listas.
-for promo in muchasPromos: 
-    listaPromos = IBMSlistMaker(promo) 
-    resultadoIBMS.append(listaPromos)
-#llamada a la funcion de los CROSS, a implementar:
-    # if promo['crossChannel'] == True:
-    #     listaPromosCross = IBMSCrossListMaker(promo)
-    #     crossIBMS.append(listaPromosCross)
 
-print (resultadoIBMS)
 
-#ACA SIGUE LA IMPLEMENTACION PARA PEGAR TODO EN UN UN EXCEL
-write2excelIBMS(resultadoIBMS, outputFilename)
+# Esta funcionaba para la v1 de write2Excel
+# for promo in promoDeExcel: 
+#     listaPromos = IBMSlistMaker(promo) 
+#     resultadoIBMS.append(listaPromos)
+#print (resultadoIBMS)
+#write2excelIBMS(resultadoIBMS, outputFilename)
 
 #Y despues ver de subirlo al Drive / Office 365
 #Chequear que el Google Auth pueda leer el client_secrets.json, si no esta en el path no lo lee
