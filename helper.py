@@ -1,29 +1,62 @@
 
 #FUNCIONES Y CODIGO AUXILIAR QUE FUE LIMPIANDO DEL MAIN. 
 
-def secondsToTC (duration):
-    '''
-        IN: (int) duration in seconds
-        OUT: (str) duration in TC format ('hh:mm:ss:ff')
-        Won't calculate frames, they will always be 00.
-    '''
-    #primero, si dura mas de una hora.
+from openpyxl import Workbook
+from listMaker import IBMSlistMaker
+from datetime import date, datetime, timedelta
+
+promo1 = {
+'showFeed': 'EGSUR',
+'showName': 'BREAKING MUSIC 01',
+'promoPckg': 'ESTRENO',
+'duration': 30,
+'premiereDate': datetime(2020,10,1,18),
+'genDateStr': 'MIÉRCOLES',
+'genStartDate': datetime(2020,10,1,18),
+'endDate': datetime(2020,10,31,18),
+'dstMex': True, 
+'dstChi': True,
+'crossChannel': False,
+'megaCable':	False,
+'a&e':	False,
+'cines':	False,
+'foxSports': False
+} 
+
+
+promoRow = IBMSlistMaker(promo1)
+
+
+
+#PRUEBO DE PEGAR UNA LINEA EN UN EXCEL
+wb = Workbook() #creo libro nuevo
+ws1 = wb.active #hago la hoja activa
+for promoIndiv in promoRow:
+    ws1.append(promoIndiv)
+
+dest_filename = 'prueba.xlsx'
+wb.save(filename = dest_filename)
+
+
+
+
+# def secondsToTC (duration):
+#     '''
+#         IN: (int) duration in seconds
+#         OUT: (str) duration in TC format ('hh:mm:ss:ff')
+#         Won't calculate frames, they will always be 00.
+#     '''
+#     #primero, si dura mas de una hora.
     
-    hours = duration // 3600
-    minutes = (duration % 3600) // 60
-    seconds = (duration % 3600) % 60
+#     hours = duration // 3600
+#     minutes = (duration % 3600) // 60
+#     seconds = (duration % 3600) % 60
 
-    return ''.join([str(hours).zfill(2),':',str(minutes).zfill(2),':',str(seconds).zfill(2),':00'])
-
-
-
-print (secondsToTC(30))
+#     return ''.join([str(hours).zfill(2),':',str(minutes).zfill(2),':',str(seconds).zfill(2),':00'])
 
 
 
-
-
-
+# print (secondsToTC(30))
 
 
 

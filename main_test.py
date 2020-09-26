@@ -43,10 +43,28 @@ outputFilenameTime = timeStamp.strftime("lista_IBMS %Y_%m_%d %H_%M.xlsx")
 outputFilename = "lista_IBMS.xlsx"
 
 
+
+  
+#listaPromos = []
 listaPromos = readExcel(inputFilename)
+
+#test para TODAS las posibilidades
+#A copy of a_dictionary is appended to a_list instead of appending a_dictionary directly 
+# because that would produce a *reference* to a_dictionary instead of a copy.
+promo2 = promo1.copy()
+for feed in feeds:
+    promo2['showFeed'] = feed
+    for pack in packs:
+        promo2['promoPckg'] = pack
+        promo2Copy = promo2.copy()
+        listaPromos.append(promo2Copy)
+
 
 write2excelIBMSv2(listaPromos, outputFilename)
 
+
+#TAL VEZ tenga que chequear aca el flag de Cross, para armar otra lista con los crosschannel
+#seguramente acá vayan las llamadas a todas las funciones para armar todas las listas.
 
 
 #Y despues ver de subirlo al Drive / Office 365
