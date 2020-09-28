@@ -170,23 +170,41 @@ def properTime(date, feed, mexDst, chiDst):
         mexTime.strftime('%-I:%M %p Méx'), colTime.strftime('%-I:%M %p Col'), venTime.strftime('%H:%M Ven/Chi'), argTime.strftime('%H:%M Arg')]
         return ' '.join(dateItems)
     elif feed == 'AMCSUR':
-     return date.strftime('%H:%M')
+      if date.minute == 0:
+        return date.strftime('%Hhs')
+      else:
+        return date.strftime('%H:%Mhs')
     elif feed == 'AMCNORCOL':
-      return date.strftime('%I:%M %p')
+      if date.minute == 0:
+        return date.strftime('%I%p').replace('AM', 'am').replace('PM', 'pm')
+      else:
+        return date.strftime('%I:%M%p').replace('AM', 'am').replace('PM', 'pm')
     elif feed == 'AMCLATAM':
       argTime = date
       venTime = argTime - timedelta(0, 3600) #resto 1 h
       perTime = argTime - timedelta(0, 7200) #resto 1 h
       if chiDst == True:
+        argString = 'Arg/Chi'
+        venString = 'Ven'
+        perString = 'Per'
+      else:
+        argString = 'Arg'
+        venString = 'Chi/Ven'
+        perString = 'Per'
+      if date.minute == 0:
         dateItems = [
-        argTime.strftime('%H:%M Arg/Chi'), venTime.strftime('%H:%M Ven'), perTime.strftime('%-I:%M %p Per')]
-        return ' '.join(dateItems)
+        argTime.strftime(argString + ' %Hhs'), venTime.strftime(venString + ' %Hhs'), perTime.strftime(perString + ' %-I%p').replace('AM', 'am').replace('PM', 'pm')]
       else:
         dateItems = [
-        argTime.strftime('%H:%M Arg'), venTime.strftime('%H:%M Chi/Ven'), perTime.strftime('%-I:%M %p Per')]
-        return ' '.join(dateItems)
+        argTime.strftime(argString + ' %H:%Mhs'), venTime.strftime(venString + ' %H:%Mhs'), perTime.strftime(perString + ' %-I:%M%p').replace('AM', 'am').replace('PM', 'pm')]
+        
+      return ' '.join(dateItems)
+
     elif feed == 'AMCBRASIL':
-     return date.strftime('%Hh%M')
+      if date.minute == 0:
+        return date.strftime('%Hh')
+      else:
+        return date.strftime('%Hh%M')
     elif feed == 'FABRASIL':
       return date.strftime('%Hh%M')
     elif feed == 'FALATAM':
