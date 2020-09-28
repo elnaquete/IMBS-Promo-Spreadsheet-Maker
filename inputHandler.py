@@ -36,19 +36,20 @@ def readExcel (file = 'input.xlsx'):
     promo = {} #diccionario, cada promo es uno
     output = [] #lista con todas las promos ingresadas
 
+    bumpsPckg = ('ESTRENO', 'PELI DEL MES', 'PUNTUAL') #Pckg que incluyen bumps
+    bumpsFeeds = ('EGSUR', 'MCLATAM', 'EE', 'FALATAM', 'FABRASIL') #Feeds que incluyen bumps en estrenos
+
     #itero todas las filas del Excel, creando un diccionario por cada fila. 
     #Voy llenando la lista 'output' con cada diccionario. 
-
-    #agregar flag bumps? Algo del tipo "NEcesita bumps" (bool) o algo así?
     
     for row in datos.iter_rows (min_row=2, values_only=True): 
         if row[0] != None: #si la fila no esta vacia
-            #hago un if para que si es "AMC*4" me multiplique las promos *4?
+            #hago un if para que si es "AMC*4" me multiplique las promos *4
             if row[0] == 'AMC*4FEEDS':
                 amcFeeds = ('AMCBRASIL', 'AMCLATAM', 'AMCNORCOL', 'AMCSUR')
                 for feed in amcFeeds:
                     promo = {
-                    'showFeed': feed,
+                    'showFeed': feed.upper(),
                     'showName': row[1], 
                     'promoPckg': row[2], 
                     'duration': 30 if row[3] == None else int(row[3]),
@@ -67,7 +68,7 @@ def readExcel (file = 'input.xlsx'):
                     output.append(promo)
             else:
                 promo = {
-                'showFeed': row[0],
+                'showFeed': row[0].upper(),
                 'showName': row[1], 
                 'promoPckg': row[2],
                 'duration': 30 if row[3] == None else int(row[3]),
@@ -84,7 +85,27 @@ def readExcel (file = 'input.xlsx'):
                 'foxSports': strToBool(row[14])
                 }
                 output.append(promo)
-    
+                #Si la promo es del feed y pck correspondiente, aparte cargo el bump.
+                if row [0].upper() in bumpsFeeds and row[2].upper() in bumpsPckg:
+                    promo = {
+                    'showFeed': row[0].upper(),
+                    'showName': row[1], 
+                    'promoPckg': 'BUMP',
+                    'duration': 30 if row[3] == None else int(row[3]),
+                    'premiereDate': row[4],
+                    'genDateStr': row[5], 
+                    'genStartDate': row[6],
+                    'endDate': row[7],    
+                    'dstMex': False,
+                    'dstChi':False,
+                    'crossChannel':False,
+                    'megaCable': False,
+                    'a&e': False,
+                    'cines': False,
+                    'foxSports': False,
+                    }
+                    output.append(promo) 
+
     return output
 
 #print(readExcel())

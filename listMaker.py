@@ -519,47 +519,6 @@ def IBMSlistMaker(promo):
         #Y luego la version para la plani de CROSS, y dsp la de Seguimiento. Esas va en una funciones diferentes.
     return outputIBMS
 
-feeds = ['EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
-  'FALATAM', 'FABRASIL']
-packs = ['ESTRENO', 'NT', 'CAPS ESTRENO', 'REP', 'GEN', 'PUNTUAL', 'CLUB', 'STUNT', 'GEN_AMC', 'BUMP', 'PELI DEL MES'] 
-
-
-
-promo1 = {
-'showFeed': 'EGSUR',
-'showName': 'BREAKING MUSIC 01',
-'promoPckg': 'ESTRENO',
-'duration': 30,
-'premiereDate': datetime(2020,10,2,22),
-'genDateStr': 'MIÉRCOLES',
-'genStartDate': datetime(2020,10,1,22,35),
-'endDate': datetime(2020,10,31,18),
-'dstMex': True, 
-'dstChi': True,
-'crossChannel': False,
-'megaCable':	False,
-'a&e':	False,
-'cines':	False,
-'foxSports': False
-} 
-
-# test para TODAS las posibilidades
-# promo2 = promo1.copy()
-# for feed in feeds:
-#     promo2['showFeed'] = feed
-#     for pack in packs:
-#         promo2['promoPckg'] = pack
-#         print('FEED: ', feed, 'promoPckg: ', pack)
-#         print (IBMSlistMaker(promo2))
-
-
-
-# feed = promo1['showFeed']
-# pack = promo1['promoPckg']
-# print('FEED: ', feed, 'promoPckg: ', pack)
-# print (IBMSlistMaker(promo1))
-
-
 
 
 

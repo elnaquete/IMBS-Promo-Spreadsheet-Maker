@@ -5,7 +5,6 @@
 from datetime import date, datetime, timedelta
 from listMaker import IBMSlistMaker
 from inputHandler import readExcel
-from write2excel import write2excelIBMS
 from write2excelv2 import write2excelIBMSv2
 from gDriveUploader import gDriveUploader
 
