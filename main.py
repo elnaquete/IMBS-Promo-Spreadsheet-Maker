@@ -2,11 +2,11 @@
 #Para que funcione el upload a Drive, hay que agregar el client_secrets.json (esta en el dropbox)
 
 
-from datetime import date, datetime, timedelta
+from datetime import datetime
 from listMaker import IBMSlistMaker
 from inputHandler import readExcel
 from write2excelv2 import write2excelIBMSv2
-from gDriveUploader import gDriveUploader
+# from gDriveUploader import gDriveUploader
 
 
 feeds = ('EGSUR', 'EGNOR', 'MCLATAM', 'MCUSA', 'EE', 'AMCSUR', 'AMCNORCOL', 'AMCLATAM', 'AMCBRASIL', 
