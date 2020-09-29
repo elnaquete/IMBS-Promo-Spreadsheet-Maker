@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 #por ahora así, despues vemos que dependencias se importan o si hacemos un solo archivo.
 #Para que funcione el upload a Drive, hay que agregar el client_secrets.json (esta en el dropbox)
 

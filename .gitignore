@@ -5,3 +5,16 @@ client_secrets.json
 lista_IBMS 2020_09_15 08_36.xlsx
 mycreds.txt
 .vscode/settings.json
+__pycache__/write2excelv2.cpython-37.pyc
+helper.py
+write2excel.py
+readExcel.py
+pruebasreadExcel.py
+pruebashelper.py
+__pycache__/inputHandler.cpython-37.pyc
+__pycache__/listMaker.cpython-37.pyc
+__pycache__/naming.cpython-37.pyc
+.gitignore
+__pycache__/inputHandler.cpython-37.pyc
+__pycache__/listMaker.cpython-37.pyc
+__pycache__/naming.cpython-37.pyc

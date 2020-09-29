@@ -1,9 +1,9 @@
 def gDriveUploader(filename):
-    '''
+    """
     IN: Binary file (Excel)
-    OUT: Uploads the file to the specified Google Drive folder 
+    OUT: Uploads the file to the specified Google Drive folder
     Folder location can be changed by changing the ID key in 'parents'
-    '''
+    """
     from pydrive.auth import GoogleAuth
     from pydrive.drive import GoogleDrive
     import os
@@ -28,10 +28,12 @@ def gDriveUploader(filename):
     # Open the file, 'rb' since it's a binary file
     with open(filename, mode="rb") as file:
         # Create the file in the specified folder
-        file_drive = drive.CreateFile({
-            'title':os.path.basename(file.name),
-            'parents': [{'id': ['1HqQ1mNDYtPwsRRuLKgLGX5JQTRMvTWNr']}]
-                })
+        file_drive = drive.CreateFile(
+            {
+                "title": os.path.basename(file.name),
+                "parents": [{"id": ["1HqQ1mNDYtPwsRRuLKgLGX5JQTRMvTWNr"]}],
+            }
+        )
         # set the contents to that file
-        file_drive.SetContentFile(filename) 
+        file_drive.SetContentFile(filename)
         file_drive.Upload()
