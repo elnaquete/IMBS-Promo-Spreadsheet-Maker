@@ -251,7 +251,10 @@ def properTime(date, feed, mexDst, chiDst):
         else:
             return date.strftime("%Hh%M")
     elif feed == "FABRASIL":
-        return date.strftime("%Hh%M")
+        if date.minute == 0:
+            return date.strftime("%Hh")
+        else:
+            return date.strftime("%Hh%M")
     elif feed == "FALATAM":
         argTime = date  # Mex tambien es este horario
         chiTime = argTime - timedelta(0, 3600)  # resto 2 h
